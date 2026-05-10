@@ -1,0 +1,50 @@
+/* styles.module.css */
+
+.cartItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* يجعل الكمية تبدأ من فوق بجانب الصورة */
+    padding: 15px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #d4d4d6;
+}
+
+.product {
+    display: flex;
+}
+
+.productImg {
+    width: 120px;
+}
+
+.productImg img {
+    width: 100%; /* تأخذ عرض الـ div الأب */
+    height: 150px;
+    background-color: #f2f2f2;
+    display: block;
+    object-fit: contain;
+}
+
+.productInfo {
+    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    height: 150px; /* نفس ارتفاع الصورة ليعمل mt-auto */
+    min-width: 150px;
+}
+
+.productInfo h2 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.productInfo h3 {
+    font-size: 14px;
+    color: #333;
+}
+
+.cartItemSelection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

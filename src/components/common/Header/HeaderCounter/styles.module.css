@@ -1,0 +1,54 @@
+/* ========== Base Style ========== */
+
+.container {
+    position: relative;
+    cursor: pointer;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.totalNum {
+    background-color: #0dcaf0;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    text-align: center;
+    border: 1px solid;
+    position: absolute;
+    top: -11px;
+    font-size: 12px;
+}
+
+/* ========== Cart Specific ========== */
+
+.cart .totalNum {
+    right: -5px;
+}
+
+/* ========== Wishlist Specific ========== */
+
+.wishlist {
+    margin-right: 10px;
+    padding-right: 10px;
+    border-right: 1px solid black;
+}
+
+.wishlist .totalNum {
+    right: 10px;
+}
+
+/* ========== Animation ========== */
+
+.basketQuantityAnimate {
+    animation: basketAnimate 300ms ease-out;
+}
+
+@keyframes basketAnimate {
+    0% { transform: scale(1); }
+    20% { transform: scale(0.8); }
+    30% { transform: scale(1.1); }
+    50% { transform: scale(1.7); }
+    100% { transform: scale(1); }
+}
