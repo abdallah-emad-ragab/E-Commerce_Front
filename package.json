@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.11.2",
+    "@supabase/supabase-js": "^2.105.4",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.3",
     "lottie-react": "^2.4.1",
