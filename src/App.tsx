@@ -24,7 +24,13 @@ function App() {
                 <Route index element={<SuspenseFallback> <Home /> </SuspenseFallback>} />
                 <Route path="/categories" element={<SuspenseFallback> <Categories /> </SuspenseFallback>} />
                 <Route path="/categories/products/:prefix" element={<SuspenseFallback> <Products /> </SuspenseFallback>} />
-                <Route path="/cart" element={<SuspenseFallback> <Cart /> </SuspenseFallback>} />
+                <Route path="/cart" element={
+                    <ProtectedRoute>
+                        <SuspenseFallback>
+                            <Cart />
+                        </SuspenseFallback>
+                    </ProtectedRoute>
+                } />
                 <Route path="/wishlist" element={
                     <ProtectedRoute>
                         <SuspenseFallback>

@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import { axiosErrorHandler } from "../../../utilities";
-import axios from "axios";
+import axiosInstance from "../../../services/axios-global";
 
 const thunkPlaceOrder = createAsyncThunk("orderSlice/thunkPlaceOrder", async (subtotal: number, thunkAPI) => {
     const { rejectWithValue, getState } = thunkAPI;
@@ -16,7 +16,7 @@ const thunkPlaceOrder = createAsyncThunk("orderSlice/thunkPlaceOrder", async (su
     }));
 
     try {
-        const response = await axios.post("/orders", {
+        const response = await axiosInstance.post("/orders", {
             userId: auth.user?.id,
             items: orderItems,
             subtotal

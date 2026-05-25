@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../../services/axios-global";
 import type { TProduct } from "../../../types/products";
 import { axiosErrorHandler } from "../../../utilities";
 import type { RootState } from "../../store";
@@ -13,7 +13,8 @@ const thunkLikeToggle = createAsyncThunk("wishlist/thunkLikeToggle",
         const { auth } = getState() as RootState;
 
         try {
-            const userWishlist = await axios.get<{ productId: number }[]>(`wishlist?userId=${auth.user?.id}`, { signal });
+            // Request wishlist for current user using PostgREST filter
+            const userWishlist = await axiosInstance.get<{ productId: number }[]>(`/wishlist?userId=eq.${auth.user?.id}`, { signal });
             if (!userWishlist.data.length) {
                 return {data: [], dataType: "empty"};
             }
@@ -22,8 +23,9 @@ const thunkLikeToggle = createAsyncThunk("wishlist/thunkLikeToggle",
                 const productIds = userWishlist.data.map(item => item.productId);
                 return fulfillWithValue({data: productIds, dataType: "ProductsIds"});
             } else {
-                const productIds = userWishlist.data.map(item => `id=${item.productId}`).join("&");
-                const response = await axios.get<TResponse>(`products?${productIds}`);
+                // Build an `in` filter for multiple ids: id=in.(1,2,3)
+                const ids = userWishlist.data.map(i => i.productId).join(',');
+                const response = await axiosInstance.get<TResponse>(`/products?id=in.(${ids})`);
                 return fulfillWithValue({data: response.data, dataType: "ProductsFullInfo"});
             }
         }

@@ -14,6 +14,7 @@ export default function Login() {
                 <Heading title="Login" />
                 {/* Messages */}
                 {searchParams.get("message") === "account-created" && <div className="alert alert-success">Account created successfully. Please login.</div>}
+                {searchParams.get("message") === "check_email" && <div className="alert alert-info">Account created. Please check your email and confirm your address before logging in.</div>}
                 {searchParams.get("message") === "login_required" && <div className="alert alert-info">You need to login to access this page.</div>}
 
                 {/* Form */}

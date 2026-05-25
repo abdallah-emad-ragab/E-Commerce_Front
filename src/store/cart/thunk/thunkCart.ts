@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import axios from "axios";
+import axiosInstance from "../../../services/axios-global";
 import type { TProduct } from "../../../types/products";
 import { axiosErrorHandler } from "../../../utilities";
 
@@ -14,8 +14,9 @@ const thunkCart = createAsyncThunk("cart/thunkCart", async (_, thunkAPI) => {
         return fulfillWithValue([]);
     }
     try {
-        const query = itemsID.map((id) => `id=${id}`).join("&");
-        const response = await axios.get<TResponse>(`products?${query}`);
+        // Use `in` filter to fetch multiple ids at once
+        const ids = itemsID.join(',');
+        const response = await axiosInstance.get<TResponse>(`/products?id=in.(${ids})`);
         return response.data;
     } catch (error) {
         return rejectWithValue(axiosErrorHandler(error));

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../../services/axios-global";
 import { axiosErrorHandler } from "../../../utilities";
 import type { RootState } from "../../store";
 
@@ -10,13 +10,14 @@ const thunkWishlist = createAsyncThunk("wishlist/thunkWishlist",
 
         try {
             const userId = auth.user?.id;
-            const isRecordExist = await axios.get(`/wishlist?userId=${userId}&productId=${id}`);
+            // Use PostgREST filters
+            const isRecordExist = await axiosInstance.get(`/wishlist?userId=eq.${userId}&productId=eq.${id}`);
 
             if (isRecordExist.data.length > 0) {
-                await axios.delete(`/wishlist/${isRecordExist.data[0].id}`);
+                await axiosInstance.delete(`/wishlist/${isRecordExist.data[0].id}`);
                 return { type: "removed", id };
             } else {
-                await axios.post("/wishlist", { userId, productId: id });
+                await axiosInstance.post("/wishlist", { userId, productId: id });
                 return { type: "add", id };
             }
         }

@@ -72,7 +72,16 @@ export default function Header() {
                                         <li><Link to="/account" className="dropdown-item">Account</Link></li>
                                         <li><Link to="/account/orders" className="dropdown-item">Orders</Link></li>
                                         <li><hr className="dropdown-divider" /></li>
-                                        <li><Link to="/" className="dropdown-item" onClick={() => dispatch(authLogout())}>Logout</Link></li>
+                                        <li>
+                                            <Link to="/" className="dropdown-item" onClick={async () => {
+                                                dispatch(authLogout());
+                                                // Also clear cart and wishlist state on logout
+                                                try { const cartMod = await import('../../../store/cart/cartSlice'); dispatch(cartMod.cartCleanUp()); } catch (e) { /* ignore */ }
+                                                try { const wishMod = await import('../../../store/wishlist/wishlistSlice'); dispatch(wishMod.productsWishlistCleanUp()); } catch (e) { /* ignore */ }
+                                            }}>
+                                                Logout
+                                            </Link>
+                                        </li>
                                     </ul>
                                 </div>
                             )}

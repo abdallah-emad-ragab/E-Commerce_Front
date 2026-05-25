@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../../../services/axios-global";
 import type { TProduct } from "../../../types/products";
 import { axiosErrorHandler } from "../../../utilities";
 
@@ -10,8 +10,9 @@ const thunkProducts = createAsyncThunk<TResponse, string>(
     async (prefix, thunkAPI) => {
         const { rejectWithValue, signal } = thunkAPI;
         try {
-            const response = await axios.get<TResponse>(
-                `/products?cat_prefix=${prefix}`, 
+            // Use PostgREST filter syntax: eq.<value>
+            const response = await axiosInstance.get<TResponse>(
+                `/products?cat_prefix=eq.${encodeURIComponent(prefix)}`,
                 { signal }
             );
             return response.data;

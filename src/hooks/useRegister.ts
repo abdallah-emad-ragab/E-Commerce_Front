@@ -25,7 +25,13 @@ function useRegister() {
     const submitHandler: SubmitHandler<RegisterType> = (data) => {
         const { firstName, lastName, email, password } = data;
         dispatch(thunkRegister({ firstName, lastName, email, password })).unwrap()
-            .then(() => navigate("/login?message=account-created")); // After a successful registration, the user is navigated to the login page.
+            .then((res: any) => {
+                if (res?.requiresConfirmation) {
+                    navigate("/login?message=check_email");
+                } else {
+                    navigate("/login?message=account-created");
+                }
+            }); // After a successful registration, navigate and show appropriate message.
     }
 
     const emailOnBlurHandler = async (event: React.FocusEvent<HTMLInputElement>) => {
